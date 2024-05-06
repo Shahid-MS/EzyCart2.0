@@ -333,6 +333,7 @@ function Checkout() {
                   Choose from Existing addresses
                 </p>
                 <ul>
+                  {console.log(user)}
                   {user.addresses.map((address, index) => (
                     <li
                       key={index}
