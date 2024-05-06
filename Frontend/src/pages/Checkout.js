@@ -76,7 +76,16 @@ function Checkout() {
         selectedAddress,
         status: "pending", // other status can be delivered, received.
       };
-      dispatch(createOrderAsync(order));
+      dispatch(createOrderAsync(order))
+        .unwrap()
+        .then((result) => {
+          // Order creation successful, redirect to success page
+          // You may use react-router-dom to navigate to the success page
+        })
+        .catch((error) => {
+          // Order creation failed, display error message to the user
+          alert(`Order creation failed: ${error.message}`);
+        });
       // need to redirect from here to a new page of order success.
     } else {
       alert("Enter Address and Payment method");
@@ -145,6 +154,8 @@ function Checkout() {
                         </label>
                         <div className="mt-2">
                           <input
+                            value={user.name}
+                            contentEditable="false"
                             type="text"
                             {...register("name", {
                               required: "name is required",
@@ -169,6 +180,8 @@ function Checkout() {
                         </label>
                         <div className="mt-2">
                           <input
+                            value={user.email}
+                            contentEditable="false"
                             id="email"
                             {...register("email", {
                               required: "email is required",
@@ -193,6 +206,8 @@ function Checkout() {
                         </label>
                         <div className="mt-2">
                           <input
+                            value={user.phone}
+                            contentEditable="false"
                             id="phone"
                             {...register("phone", {
                               required: "phone is required",
@@ -310,7 +325,7 @@ function Checkout() {
 
                   <div className="mt-6 flex items-center justify-end gap-x-6">
                     <button
-                      // onClick={e=>reset()}
+                      onClick={(e) => reset()}
                       type="button"
                       className="text-sm font-semibold leading-6 text-gray-900"
                     >
@@ -516,7 +531,6 @@ function Checkout() {
                   </div>
                   <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                     <p>
-                      or
                       <Link to="/">
                         <button
                           type="button"
